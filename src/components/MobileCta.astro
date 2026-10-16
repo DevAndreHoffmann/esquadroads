@@ -1,0 +1,31 @@
+---
+// CTA fixo no rodapé da tela (só mobile). Fica oculto enquanto o CTA do hero
+// ou o formulário estão visíveis, para nunca cobrir campos nem mensagens de erro.
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<div class="mobile-cta" data-mobile-cta hidden>
+  <a class="btn btn--primary btn--block" href={href}>{label}</a>
+</div>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-mobile-cta]');
+  const watched = document.querySelectorAll('[data-hide-mobile-cta]');
+
+  if (bar && watched.length > 0 && 'IntersectionObserver' in window) {
+    const visible = new Set<Element>();
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      }
+      bar.hidden = visible.size > 0;
+    });
+    watched.forEach((element) => observer.observe(element));
+  }
+</script>

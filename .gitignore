@@ -1,0 +1,20 @@
+# Variáveis de ambiente com credenciais (nunca versionar)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+.env.*
+!.env.example
+
+# Dependências e artefatos de build
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# Logs e sistema
+npm-debug.log*
+.DS_Store
+Thumbs.db

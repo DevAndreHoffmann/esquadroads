@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+
+const title = 'Esquadro ADS | Marketing e geração de oportunidades para marcenarias';
+const description =
+  'Marketing e geração de oportunidades para marcenarias, móveis planejados e sob medida. Faça um Diagnóstico Digital gratuito da sua marcenaria.';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header ctaHref="/diagnostico" />
+
+  <main id="conteudo">
+    <section class="hero section--dark" aria-labelledby="home-title">
+      <div class="container hero__content">
+        <p class="hero__eyebrow"><strong>Esquadro ADS</strong><span>marketing para o setor moveleiro</span></p>
+        <h1 id="home-title">Marketing e geração de oportunidades para <span class="hl">marcenarias.</span></h1>
+        <p class="lead">
+          Ajudamos marcenarias, empresas de móveis planejados e sob medida a transformar visibilidade em pedidos de
+          orçamento, com Instagram, Google, Meta Ads e Google Ads trabalhando juntos.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg" href="/diagnostico">
+            Fazer meu diagnóstico gratuito
+            <Icon name="arrow" />
+          </a>
+          <ul class="hero__micro microcopy" role="list">
+            <li>Leva cerca de 2 minutos</li>
+            <li>sem acesso às suas contas</li>
+            <li>sem compromisso</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="home-diagnostico-title">
+      <div class="container split">
+        <div class="section-head section-head--flush">
+          <h2 id="home-diagnostico-title">Comece pelo Diagnóstico Digital</h2>
+          <p class="lead">
+            Analisamos seu Instagram, Google, site e oportunidades de anúncios e apresentamos os principais pontos em uma
+            call estratégica de até 40 minutos.
+          </p>
+        </div>
+        <div>
+          <ul class="checklist" role="list">
+            <li><Icon name="check" /><span>Feito para marcenarias e empresas de móveis planejados</span></li>
+            <li><Icon name="check" /><span>Sem acesso às suas contas e sem compromisso</span></li>
+            <li><Icon name="check" /><span>Foco em pedidos de orçamento, não em curtidas</span></li>
+          </ul>
+          <p class="section-cta">
+            <a class="btn btn--dark btn--lg" href="/diagnostico">Ver como funciona o diagnóstico<Icon name="arrow" /></a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

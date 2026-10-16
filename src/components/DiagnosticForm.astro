@@ -1,0 +1,183 @@
+---
+import Icon from './Icon.astro';
+import { CAPACIDADES, INVESTIMENTOS, OBJETIVOS, SERVICOS } from '../lib/diagnostico/options';
+import { LIMITS } from '../lib/diagnostico/validation';
+import { SITE } from '../lib/site';
+---
+
+<form class="form-card" id="diagnostico-form" novalidate data-diagnostic-form>
+  <div class="form-progress" data-progress data-step="1">
+    <span data-progress-label>Etapa 1 de 2 · Contato e empresa</span>
+    <span class="form-progress__bar" aria-hidden="true"><span></span></span>
+  </div>
+
+  <p class="hint form-legend-hint">
+    Campos com <span class="req" aria-hidden="true">*</span><span class="visually-hidden">asterisco</span> são obrigatórios.
+  </p>
+
+  <fieldset class="form-step" data-step="1" tabindex="-1">
+    <legend>Contato e empresa</legend>
+    <div class="fields fields--2">
+      <div class="field field--full">
+        <label for="dg-nome">Nome <span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="dg-nome" name="nome" type="text" autocomplete="name" required maxlength={LIMITS.nome} aria-describedby="dg-nome-err" />
+        <p class="field-error" id="dg-nome-err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="dg-whatsapp">WhatsApp <span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="dg-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required maxlength="25" placeholder="(41) 99999-9999" aria-describedby="dg-whatsapp-hint dg-whatsapp-err" />
+        <p class="hint" id="dg-whatsapp-hint">Com DDD. É por onde combinamos a call.</p>
+        <p class="field-error" id="dg-whatsapp-err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="dg-email">E-mail <span class="opt">(opcional)</span></label>
+        <input class="input" id="dg-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength={LIMITS.email} aria-describedby="dg-email-err" />
+        <p class="field-error" id="dg-email-err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="dg-empresa">Nome da empresa <span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="dg-empresa" name="empresa" type="text" autocomplete="organization" required maxlength={LIMITS.empresa} aria-describedby="dg-empresa-err" />
+        <p class="field-error" id="dg-empresa-err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="dg-cidade">Cidade e estado <span class="req" aria-hidden="true">*</span></label>
+        <input class="input" id="dg-cidade" name="cidade_estado" type="text" autocomplete="address-level2" required maxlength={LIMITS.cidade_estado} placeholder="Ex.: Curitiba/PR" aria-describedby="dg-cidade_estado-err" />
+        <p class="field-error" id="dg-cidade_estado-err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="dg-instagram">Instagram <span class="opt">(opcional)</span></label>
+        <input class="input" id="dg-instagram" name="instagram_url" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength={LIMITS.url} placeholder="@suamarcenaria" aria-describedby="dg-instagram_url-err" />
+        <p class="field-error" id="dg-instagram_url-err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="dg-site">Site <span class="opt">(opcional)</span></label>
+        <input class="input" id="dg-site" name="site_url" type="text" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" maxlength={LIMITS.url} placeholder="suamarcenaria.com.br" aria-describedby="dg-site_url-err" />
+        <p class="field-error" id="dg-site_url-err" hidden></p>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn--dark btn--lg btn--block" data-action="next">
+        Continuar para a etapa 2
+        <Icon name="arrow" />
+      </button>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-step" data-step="2" tabindex="-1" hidden>
+    <legend>Sobre a sua marcenaria</legend>
+    <div class="fields">
+      <fieldset class="field-group" data-group="principal_objetivo" aria-describedby="dg-principal_objetivo-err">
+        <legend>Principal objetivo hoje <span class="req" aria-hidden="true">*</span><span class="visually-hidden">(obrigatório)</span></legend>
+        <div class="choices choices--2">
+          {
+            OBJETIVOS.map((option) => (
+              <label class="choice">
+                <input type="radio" name="principal_objetivo" value={option.value} required />
+                <span>{option.label}</span>
+              </label>
+            ))
+          }
+        </div>
+        <p class="field-error" id="dg-principal_objetivo-err" hidden></p>
+      </fieldset>
+
+      <div class="fields fields--2">
+        <div class="field">
+          <label for="dg-servico">Produto ou serviço prioritário <span class="opt">(opcional)</span></label>
+          <select class="input" id="dg-servico" name="servico_prioritario" aria-describedby="dg-servico_prioritario-err">
+            <option value="">Selecione</option>
+            {SERVICOS.map((option) => <option value={option.value}>{option.label}</option>)}
+          </select>
+          <p class="field-error" id="dg-servico_prioritario-err" hidden></p>
+        </div>
+
+        <fieldset class="field-group" data-group="anuncia_atualmente" aria-describedby="dg-anuncia_atualmente-err">
+          <legend>Anuncia atualmente? <span class="opt">(opcional)</span></legend>
+          <div class="choices choices--inline">
+            <label class="choice"><input type="radio" name="anuncia_atualmente" value="sim" /><span>Sim</span></label>
+            <label class="choice"><input type="radio" name="anuncia_atualmente" value="nao" /><span>Não</span></label>
+          </div>
+          <p class="field-error" id="dg-anuncia_atualmente-err" hidden></p>
+        </fieldset>
+
+        <div class="field">
+          <label for="dg-investimento">Investimento mensal em anúncios <span class="opt">(opcional)</span></label>
+          <select class="input" id="dg-investimento" name="investimento_mensal" aria-describedby="dg-investimento_mensal-err">
+            <option value="">Selecione</option>
+            {INVESTIMENTOS.map((option) => <option value={option.value}>{option.label}</option>)}
+          </select>
+          <p class="field-error" id="dg-investimento_mensal-err" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="dg-capacidade">Capacidade de novos projetos por mês <span class="opt">(opcional)</span></label>
+          <select class="input" id="dg-capacidade" name="capacidade_mensal" aria-describedby="dg-capacidade_mensal-err">
+            <option value="">Selecione</option>
+            {CAPACIDADES.map((option) => <option value={option.value}>{option.label}</option>)}
+          </select>
+          <p class="field-error" id="dg-capacidade_mensal-err" hidden></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="dg-observacoes">Observações <span class="opt">(opcional)</span></label>
+        <textarea class="input" id="dg-observacoes" name="observacoes" rows="4" maxlength={LIMITS.observacoes} aria-describedby="dg-observacoes-hint dg-observacoes-err"></textarea>
+        <p class="hint" id="dg-observacoes-hint">Ex.: tipo de projeto que mais quer vender, região atendida, o que já tentou.</p>
+        <p class="field-error" id="dg-observacoes-err" hidden></p>
+      </div>
+
+      <div class="field">
+        <label class="consent" for="dg-consentimento" data-consent>
+          <input type="checkbox" id="dg-consentimento" name="consentimento_privacidade" value="sim" required aria-describedby="dg-consentimento_privacidade-err" />
+          <span>
+            Li e concordo com a <a href="/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade<span class="visually-hidden"> (abre em nova aba)</span></a>
+            e autorizo a Esquadro ADS a entrar em contato sobre este diagnóstico.
+            <span class="req" aria-hidden="true">*</span>
+          </span>
+        </label>
+        <p class="field-error" id="dg-consentimento_privacidade-err" hidden></p>
+      </div>
+    </div>
+
+    <div class="hp" aria-hidden="true">
+      <label for="dg-hp">Deixe este campo em branco</label>
+      <input id="dg-hp" name="hp_extra" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn--outline" data-action="back">Voltar</button>
+      <button type="submit" class="btn btn--primary btn--lg" data-submit>
+        <span data-submit-label>Enviar e escolher horário</span>
+        <Icon name="arrow" />
+      </button>
+    </div>
+  </fieldset>
+
+  <p class="form-status" id="dg-status" role="status" aria-live="polite" data-status></p>
+
+  <p class="form-safe">
+    <Icon name="lock" />
+    Não pedimos senhas nem acesso às suas contas.
+  </p>
+
+  <noscript>
+    <p class="note">
+      Para enviar o formulário, ative o JavaScript do navegador. Se preferir, escreva para
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+    </p>
+  </noscript>
+</form>
+
+<script>
+  import { initDiagnosticForm } from '../scripts/diagnostic-form';
+
+  const form = document.querySelector<HTMLFormElement>('[data-diagnostic-form]');
+  if (form) initDiagnosticForm(form);
+</script>

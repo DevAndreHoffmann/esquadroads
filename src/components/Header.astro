@@ -1,0 +1,18 @@
+---
+import Logo from './Logo.astro';
+
+interface Props {
+  /** Destino do botão. Sem valor, o cabeçalho mostra só o logo. */
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+
+const { ctaHref, ctaLabel = 'Diagnóstico gratuito' } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <Logo />
+    {ctaHref && <a class="btn btn--primary" href={ctaHref}>{ctaLabel}</a>}
+  </div>
+</header>

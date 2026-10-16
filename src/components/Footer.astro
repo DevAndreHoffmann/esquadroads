@@ -1,0 +1,23 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="stack">
+      <Logo />
+      <p>{SITE.tagline}.</p>
+      <p>Contato: <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+    <div class="stack stack--sm">
+      <nav aria-label="Links institucionais" class="footer-links">
+        <a href="/politica-de-privacidade">Política de Privacidade</a>
+        <a href="/diagnostico">Diagnóstico gratuito</a>
+      </nav>
+      <p>© {year} {SITE.name}. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../lib/site';
+
+// Pontos marcados com <mark class="confirmar"> dependem de confirmação da Esquadro ADS
+// (dados da empresa e definições jurídicas) antes de a página ir para produção.
+const updatedAt = '16 de outubro de 2026';
+const mailto = `mailto:${SITE.email}`;
+---
+
+<BaseLayout
+  title="Política de Privacidade | Esquadro ADS"
+  description="Como a Esquadro ADS coleta, usa e protege os dados enviados no Diagnóstico Digital para marcenarias."
+>
+  <Header ctaHref="/diagnostico" />
+
+  <main id="conteudo">
+    <section class="page-hero section--dark" aria-labelledby="politica-title">
+      <div class="container">
+        <h1 id="politica-title">Política de Privacidade</h1>
+        <p class="lead">Última atualização: {updatedAt}.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container legal">
+        <section aria-labelledby="p-quem">
+          <h2 id="p-quem">1. Quem somos</h2>
+          <p>
+            Esta política explica como a <strong>Esquadro ADS</strong> trata os dados pessoais enviados neste site,
+            especialmente no formulário do Diagnóstico Digital para marcenarias.
+          </p>
+          <p>
+            Controlador dos dados: <mark class="confirmar">A confirmar: razão social, CNPJ e endereço da Esquadro ADS</mark>.
+            Contato para assuntos de privacidade: <a href={mailto}>{SITE.email}</a>.
+          </p>
+        </section>
+
+        <section aria-labelledby="p-dados">
+          <h2 id="p-dados">2. Dados que coletamos</h2>
+          <p>Quando você preenche o formulário do diagnóstico, coletamos:</p>
+          <ul>
+            <li>nome, WhatsApp e, se informado, e-mail;</li>
+            <li>nome da empresa, cidade e estado e, se informados, Instagram e site;</li>
+            <li>
+              respostas sobre a sua marcenaria: principal objetivo, produto ou serviço prioritário, se anuncia atualmente,
+              faixa de investimento em anúncios, capacidade de novos projetos e observações;
+            </li>
+            <li>o registro do seu aceite desta Política de Privacidade.</li>
+          </ul>
+          <p>Também registramos, junto com o formulário, informações sobre a origem da visita:</p>
+          <ul>
+            <li>parâmetros de campanha presentes no link de acesso (utm_source, utm_medium, utm_campaign, utm_content, utm_term);</li>
+            <li>o identificador de clique de anúncios da Meta (fbclid), quando presente;</li>
+            <li>a página do site pela qual você chegou.</li>
+          </ul>
+          <p>
+            Não gravamos o seu endereço IP no nosso banco de dados. Os provedores de hospedagem podem registrar dados
+            técnicos de acesso, como IP e navegador, em logs de segurança e funcionamento.
+          </p>
+        </section>
+
+        <section aria-labelledby="p-finalidade">
+          <h2 id="p-finalidade">3. Para que usamos os dados</h2>
+          <ul>
+            <li>preparar o diagnóstico da presença digital da sua empresa;</li>
+            <li>entrar em contato com você sobre o diagnóstico, a call estratégica e, se fizer sentido, uma proposta comercial;</li>
+            <li>entender quais campanhas e anúncios trouxeram cada solicitação e medir o desempenho do site;</li>
+            <li>proteger o formulário contra envios automatizados e abusos.</li>
+          </ul>
+          <p>
+            Bases legais aplicáveis (LGPD):
+            <mark class="confirmar">A confirmar com assessoria jurídica: consentimento, procedimentos preliminares a contrato e legítimo interesse, conforme cada finalidade</mark>.
+          </p>
+        </section>
+
+        <section aria-labelledby="p-medicao">
+          <h2 id="p-medicao">4. Ferramentas de medição</h2>
+          <p>
+            Este site pode utilizar o <strong>Meta Pixel</strong>, ferramenta da Meta Platforms, para medir visitas e ações
+            como a visualização da página do diagnóstico, o início e o envio do formulário e o clique para agendar a call.
+            O Pixel pode usar cookies e identificadores do navegador. Não enviamos ao Pixel o conteúdo do formulário
+            (nome, WhatsApp, e-mail ou respostas).
+          </p>
+          <p>
+            Para preservar a origem da sua visita entre as páginas do site, guardamos os parâmetros de campanha no
+            armazenamento local do seu navegador por até 30 dias.
+          </p>
+          <p>
+            Você pode bloquear ou apagar cookies e dados de sites nas configurações do navegador e ajustar suas
+            preferências de anúncios nas configurações da sua conta Meta.
+          </p>
+          <p>
+            Banner ou gestão de consentimento de cookies:
+            <mark class="confirmar">A confirmar se será adotado antes da veiculação das campanhas</mark>.
+          </p>
+        </section>
+
+        <section aria-labelledby="p-armazenamento">
+          <h2 id="p-armazenamento">5. Armazenamento e operadores</h2>
+          <p>Para funcionar, o site conta com os seguintes fornecedores (operadores):</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th scope="col">Fornecedor</th><th scope="col">Função</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Supabase</td><td>Banco de dados onde as solicitações de diagnóstico ficam armazenadas (região de São Paulo, Brasil).</td></tr>
+                <tr><td>Vercel</td><td>Hospedagem do site e processamento do envio do formulário. Pode processar dados fora do Brasil.</td></tr>
+                <tr><td>Meta Platforms</td><td>Medição de visitas e eventos pelo Meta Pixel, quando ativo.</td></tr>
+                <tr><td>Google</td><td>Agendamento (Google Agenda) e realização da call (Google Meet), quando você agenda.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Não vendemos nem alugamos seus dados pessoais.</p>
+          <p>
+            Prazo de guarda das solicitações:
+            <mark class="confirmar">A confirmar: por quanto tempo os dados ficam armazenados e quando são eliminados</mark>.
+          </p>
+        </section>
+
+        <section aria-labelledby="p-direitos">
+          <h2 id="p-direitos">6. Seus direitos</h2>
+          <p>Nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018), você pode solicitar:</p>
+          <ul>
+            <li>confirmação de que tratamos seus dados e acesso a eles;</li>
+            <li>correção de dados incompletos, inexatos ou desatualizados;</li>
+            <li>anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos;</li>
+            <li>eliminação dos dados tratados com base no seu consentimento;</li>
+            <li>informação sobre com quem compartilhamos seus dados;</li>
+            <li>portabilidade dos dados;</li>
+            <li>revogação do consentimento.</li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="p-contato">
+          <h2 id="p-contato">7. Como pedir correção ou exclusão</h2>
+          <p>
+            Envie um e-mail para <a href={mailto}>{SITE.email}</a> informando o nome e o WhatsApp usados no formulário e o
+            que deseja (acesso, correção, exclusão ou outro pedido). Podemos pedir uma confirmação para garantir que a
+            solicitação é sua.
+          </p>
+          <p>
+            Prazo de resposta: <mark class="confirmar">A confirmar</mark>. Encarregado pelo tratamento de dados (DPO):
+            <mark class="confirmar">A confirmar</mark>.
+          </p>
+        </section>
+
+        <section aria-labelledby="p-mudancas">
+          <h2 id="p-mudancas">8. Alterações nesta política</h2>
+          <p>
+            Esta política pode ser atualizada. A data da última atualização fica sempre no topo da página.
+          </p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

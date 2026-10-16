@@ -1,0 +1,23 @@
+---
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: readonly FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {
+    items.map((item) => (
+      <details>
+        <summary>{item.question}</summary>
+        <p class="faq__answer">{item.answer}</p>
+      </details>
+    ))
+  }
+</div>

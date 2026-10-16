@@ -1,0 +1,324 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import HeroDrawing from '../../components/HeroDrawing.astro';
+import Icon, { type IconName } from '../../components/Icon.astro';
+import DiagnosticForm from '../../components/DiagnosticForm.astro';
+import Faq, { type FaqItem } from '../../components/Faq.astro';
+import MobileCta from '../../components/MobileCta.astro';
+
+const CTA = 'Fazer meu diagnóstico gratuito';
+const FORM_ANCHOR = '#formulario';
+
+const situacoes = [
+  'Os pedidos de orçamento chegam quase só por indicação, e o volume muda muito de um mês para o outro.',
+  'O Instagram mostra um belo portfólio, mas quase ninguém sai dele pedindo orçamento.',
+  'Quem procura marcenaria ou móveis planejados na sua cidade encontra outras empresas antes da sua no Google.',
+  'Você já impulsionou posts ou fez anúncios, mas sem estrutura e sem saber o que trouxe retorno.',
+  'O tráfego cai em um perfil ou site que não deixa claro como pedir um orçamento.',
+  'Muita gente vê o seu trabalho, mas poucas conversas no WhatsApp viram projeto de verdade.',
+];
+
+const analises: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'instagram', title: 'Instagram', text: 'Perfil, conteúdo, portfólio, posicionamento e chamadas para pedir orçamento.' },
+  { icon: 'pin', title: 'Google', text: 'Presença local, perfil da empresa, avaliações, site e oportunidades de busca na sua região.' },
+  { icon: 'target', title: 'Posicionamento', text: 'Clareza da oferta, diferenciais e o tipo de cliente e de projeto que você quer atrair.' },
+  { icon: 'megaphone', title: 'Anúncios', text: 'Oportunidades em Meta Ads e Google Ads de acordo com a sua região, o ticket dos projetos e a capacidade de produção.' },
+  { icon: 'funnel', title: 'Conversão', text: 'WhatsApp, site, landing pages, formulários e o caminho que o cliente percorre até pedir orçamento.' },
+  { icon: 'chat', title: 'Processo comercial', text: 'Como os novos contatos são recebidos, respondidos e conduzidos até a visita técnica ou o projeto.' },
+];
+
+const entregas = [
+  'Os pontos que mais podem estar travando os seus pedidos de orçamento hoje.',
+  'As oportunidades mais promissoras para o tamanho, a região e a capacidade de produção da sua marcenaria.',
+  'Uma visão franca sobre se faz sentido investir em anúncios agora ou o que ajustar antes.',
+  'Espaço para tirar dúvidas sobre Instagram, Google, Meta Ads e Google Ads.',
+];
+
+const faq: FaqItem[] = [
+  {
+    question: 'O diagnóstico é gratuito mesmo?',
+    answer: 'Sim. O diagnóstico e a call estratégica não têm custo e não obrigam você a contratar nada.',
+  },
+  {
+    question: 'Preciso dar acesso ao meu Instagram, Google ou conta de anúncios?',
+    answer:
+      'Não. Analisamos o que está público: perfil, site, presença no Google e anúncios ativos. Nenhuma senha ou acesso é solicitado.',
+  },
+  {
+    question: 'Quanto tempo leva?',
+    answer:
+      'O formulário leva cerca de 2 minutos. Depois, você escolhe um horário para a call, que dura até 40 minutos.',
+  },
+  {
+    question: 'Como funciona a call?',
+    answer:
+      'É uma reunião pelo Google Meet. Apresentamos os principais pontos encontrados na análise e respondemos às suas dúvidas.',
+  },
+  {
+    question: 'Para quem é o diagnóstico?',
+    answer:
+      'Para marcenarias, empresas de móveis planejados e sob medida e negócios do setor moveleiro que querem gerar mais oportunidades.',
+  },
+  {
+    question: 'Vou receber uma proposta depois?',
+    answer:
+      'Se fizer sentido para os dois lados, podemos apresentar uma proposta depois da conversa. Se não fizer, você fica com os pontos levantados no diagnóstico.',
+  },
+  {
+    question: 'Vocês garantem resultados?',
+    answer:
+      'Não prometemos número de orçamentos, clientes ou faturamento. O diagnóstico mostra onde estão as oportunidades e o que tende a funcionar melhor para a sua marcenaria.',
+  },
+];
+
+const title = 'Diagnóstico Digital gratuito para marcenarias | Esquadro ADS';
+const description =
+  'Descubra o que pode estar limitando a visibilidade e os pedidos de orçamento da sua marcenaria. Análise de Instagram, Google, site e anúncios, com call estratégica de até 40 minutos.';
+
+const site = Astro.site ?? new URL('https://esquadroads.com');
+const pageUrl = new URL('/diagnostico', site).href;
+const jsonLd = [
+  {
+    '@type': 'WebPage',
+    '@id': `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: title,
+    description,
+    inLanguage: 'pt-BR',
+    isPartOf: { '@id': new URL('/#website', site).href },
+    about: { '@id': new URL('/#organization', site).href },
+  },
+  {
+    '@type': 'FAQPage',
+    '@id': `${pageUrl}#faq`,
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <Header ctaHref={FORM_ANCHOR} />
+
+  <main id="conteudo">
+    <!-- Hero -->
+    <section class="hero section--dark" aria-labelledby="hero-title">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="hero__eyebrow">
+            <strong>Diagnóstico Digital gratuito</strong>
+            <span>para marcenarias e empresas de móveis planejados</span>
+          </p>
+          <h1 id="hero-title">
+            Descubra o que pode estar limitando sua visibilidade e seus <span class="hl">pedidos de orçamento.</span>
+          </h1>
+          <p class="lead">
+            Analisamos seu posicionamento, redes sociais, site e oportunidades de tráfego pago. Você recebe os principais
+            pontos em uma call estratégica de até 40 minutos.
+          </p>
+          <div class="hero__actions" data-hide-mobile-cta>
+            <a class="btn btn--primary btn--lg" href={FORM_ANCHOR}>
+              {CTA}
+              <Icon name="arrow" />
+            </a>
+            <ul class="hero__micro microcopy" role="list">
+              <li>Leva cerca de 2 minutos</li>
+              <li>sem acesso às suas contas</li>
+              <li>sem compromisso</li>
+            </ul>
+          </div>
+        </div>
+        <HeroDrawing />
+      </div>
+    </section>
+
+    <!-- Problema -->
+    <section class="section" aria-labelledby="cenario-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker" data-num="01">O cenário</p>
+          <h2 id="cenario-title">Indicação é ótima. O problema é depender só dela.</h2>
+          <p class="lead">
+            Boa parte das marcenarias cresce por indicação, e isso mostra a qualidade do trabalho. Mas quando a agenda
+            depende só do boca a boca, fica difícil prever os próximos meses, escolher os projetos e planejar a produção.
+          </p>
+        </div>
+        <ul class="grid grid--2" role="list">
+          {
+            situacoes.map((texto) => (
+              <li class="situacao">
+                <Icon name="esquadro" class="situacao__mark" />
+                <p>{texto}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="callout">
+          A ideia não é substituir a indicação. É criar uma <strong>fonte adicional e mais previsível de oportunidades</strong>
+          para a sua marcenaria.
+        </p>
+      </div>
+    </section>
+
+    <!-- O que analisamos -->
+    <section class="section section--bege" aria-labelledby="analise-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker" data-num="02">O que analisamos</p>
+          <h2 id="analise-title">Seis pontos que olhamos na sua marcenaria</h2>
+          <p class="lead">Tudo a partir do que já está público. Você não precisa compartilhar senhas nem dar acesso às suas contas.</p>
+        </div>
+        <ul class="grid grid--3" role="list">
+          {
+            analises.map((item) => (
+              <li class="card">
+                <Icon name={item.icon} class="card__icon" />
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- O que você recebe -->
+    <section class="section" aria-labelledby="recebe-title">
+      <div class="container split">
+        <div class="section-head section-head--flush">
+          <p class="kicker" data-num="03">O que você recebe</p>
+          <h2 id="recebe-title">Um retrato claro das principais oportunidades</h2>
+          <p class="lead">Na call, mostramos o que encontramos e o que tende a gerar mais pedidos de orçamento para o seu tipo de projeto.</p>
+        </div>
+        <div>
+          <ul class="checklist" role="list">
+            {
+              entregas.map((texto) => (
+                <li>
+                  <Icon name="check" />
+                  <span>{texto}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="note">
+            O diagnóstico aponta prioridades. O plano completo de execução, se fizer sentido para você, é conversado depois.
+            Não prometemos número de orçamentos nem faturamento: mostramos onde estão as oportunidades.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Como funciona -->
+    <section class="section section--dark" aria-labelledby="como-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker" data-num="04">Como funciona</p>
+          <h2 id="como-title">Três etapas, sem complicação</h2>
+        </div>
+        <ol class="steps" role="list">
+          <li class="step">
+            <span class="step__num" aria-hidden="true">1</span>
+            <h3>Você responde algumas perguntas</h3>
+            <p>Contato, empresa e seus objetivos. Leva cerca de 2 minutos.</p>
+            <span class="step__tag">~2 min</span>
+          </li>
+          <li class="step">
+            <span class="step__num" aria-hidden="true">2</span>
+            <h3>A Esquadro analisa sua presença digital</h3>
+            <p>Antes da conversa, olhamos Instagram, Google, site e anúncios ativos da sua marcenaria.</p>
+            <span class="step__tag">Antes da call</span>
+          </li>
+          <li class="step">
+            <span class="step__num" aria-hidden="true">3</span>
+            <h3>Conversamos em uma call estratégica de até 40 minutos</h3>
+            <p>Pelo Google Meet, no horário que você escolher. Sem compromisso de contratação.</p>
+            <span class="step__tag">Até 40 min</span>
+          </li>
+        </ol>
+        <p class="section-cta">
+          <a class="btn btn--primary btn--lg" href={FORM_ANCHOR}>{CTA}<Icon name="arrow" /></a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Sobre -->
+    <section class="section section--papel" aria-labelledby="sobre-title">
+      <div class="container split">
+        <div class="prose">
+          <p class="kicker" data-num="05">Sobre a Esquadro ADS</p>
+          <h2 id="sobre-title">Marketing feito para quem vive de marcenaria</h2>
+          <p>
+            A Esquadro ADS é especializada em marketing e geração de oportunidades para <strong>marcenarias, empresas de
+            móveis planejados e sob medida</strong> e negócios do setor moveleiro.
+          </p>
+          <p>
+            Conhecemos a rotina do setor: projeto que leva semanas para fechar, ticket alto, visita técnica, capacidade de
+            produção limitada e cliente que pesquisa muito antes de pedir orçamento. Por isso não olhamos só para curtidas
+            ou cliques, e sim para pedidos de orçamento que fazem sentido para a sua produção.
+          </p>
+          <p>
+            Como o esquadro na bancada, a lógica é simples: medir antes de cortar, e antes de investir.
+          </p>
+        </div>
+        <!-- PLACEHOLDER VISUAL: substituir por foto oficial (equipe ou projeto atendido) quando recebermos o material. -->
+        <figure class="about__figure" data-placeholder="foto-oficial-sobre">
+          {import.meta.env.DEV && <span class="placeholder-tag">Placeholder: foto oficial</span>}
+          <blockquote class="about__quote">Medir antes de cortar. E antes de investir.</blockquote>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Formulário -->
+    <section class="section section--bege" id="formulario" aria-labelledby="form-title" data-hide-mobile-cta>
+      <div class="container form-layout">
+        <div class="form-aside">
+          <p class="kicker" data-num="06">Seu diagnóstico</p>
+          <h2 id="form-title">Solicite seu diagnóstico gratuito</h2>
+          <p class="lead">Duas etapas rápidas. Depois do envio, você escolhe o melhor horário para a call.</p>
+          <ul class="checklist" role="list">
+            <li><Icon name="lock" /><span>Sem acesso às suas contas</span></li>
+            <li><Icon name="clock" /><span>Call de até 40 minutos</span></li>
+            <li><Icon name="video" /><span>Pelo Google Meet, no horário que você escolher</span></li>
+            <li><Icon name="check" /><span>Sem compromisso de contratação</span></li>
+          </ul>
+        </div>
+        <DiagnosticForm />
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker" data-num="07">Perguntas frequentes</p>
+          <h2 id="faq-title">Antes de você enviar</h2>
+        </div>
+        <Faq items={faq} />
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="section section--amarelo" aria-labelledby="final-title">
+      <div class="container final-cta">
+        <h2 id="final-title">Pronto para ver onde estão as oportunidades da sua marcenaria?</h2>
+        <a class="btn btn--dark btn--lg" href={FORM_ANCHOR}>{CTA}<Icon name="arrow" /></a>
+        <p class="microcopy">Leva cerca de 2 minutos • sem acesso às suas contas • sem compromisso</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <MobileCta href={FORM_ANCHOR} label={CTA} />
+
+  <script>
+    import { track } from '../../lib/tracking';
+
+    track('ViewContent', { content_name: 'Diagnóstico Digital para Marcenarias' });
+  </script>
+</BaseLayout>

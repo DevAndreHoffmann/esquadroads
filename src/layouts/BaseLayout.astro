@@ -1,0 +1,147 @@
+---
+import '@fontsource/fraunces/latin-600.css';
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '../styles/global.css';
+import frauncesUrl from '@fontsource/fraunces/files/fraunces-latin-600-normal.woff2?url';
+import plexUrl from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
+import { PUBLIC_META_PIXEL_ID } from 'astro:env/client';
+import { SITE, safePixelId } from '../lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Páginas pós-conversão ou utilitárias não devem ser indexadas. */
+  noindex?: boolean;
+  /** Dados estruturados adicionais desta página (entram no @graph). */
+  jsonLd?: Record<string, unknown>[];
+  /** "eager" carrega o Pixel imediatamente (página de agendamento, onde o Lead é disparado). */
+  pixelLoad?: 'idle' | 'eager';
+}
+
+const { title, description, noindex = false, jsonLd = [], pixelLoad = 'idle' } = Astro.props;
+
+const site = Astro.site ?? new URL('https://esquadroads.com');
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImage = new URL(SITE.ogImage, site).href;
+const pixelId = safePixelId(PUBLIC_META_PIXEL_ID);
+const pixelEager = pixelLoad === 'eager';
+
+const organizationId = new URL('/#organization', site).href;
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: SITE.name,
+      url: new URL('/', site).href,
+      email: SITE.email,
+      description: SITE.tagline,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': new URL('/#website', site).href,
+      url: new URL('/', site).href,
+      name: SITE.name,
+      inLanguage: 'pt-BR',
+      publisher: { '@id': organizationId },
+    },
+    ...jsonLd,
+  ],
+};
+const jsonLdText = JSON.stringify(graph).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#151412" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="preload" href={frauncesUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={plexUrl} as="font" type="font/woff2" crossorigin />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Esquadro ADS — Diagnóstico Digital gratuito para marcenarias" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={jsonLdText} />
+
+    {
+      pixelId && (
+        <script is:inline define:vars={{ pixelId, pixelEager }}>
+          (function (w, d) {
+            if (w.fbq) return;
+            var n = (w.fbq = function () {
+              n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+            });
+            if (!w._fbq) w._fbq = n;
+            n.push = n;
+            n.loaded = true;
+            n.version = '2.0';
+            n.queue = [];
+            n('init', pixelId);
+            n('track', 'PageView');
+            function load() {
+              var s = d.createElement('script');
+              s.async = true;
+              s.src = 'https://connect.facebook.net/en_US/fbevents.js';
+              d.head.appendChild(s);
+            }
+            function schedule() {
+              if ('requestIdleCallback' in w) w.requestIdleCallback(load, { timeout: 2500 });
+              else setTimeout(load, 1200);
+            }
+            if (pixelEager) load();
+            else if (d.readyState === 'complete') schedule();
+            else w.addEventListener('load', schedule, { once: true });
+          })(window, document);
+        </script>
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <slot />
+    {
+      pixelId && (
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style="display:none"
+            alt=""
+            src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
+          />
+        </noscript>
+      )
+    }
+    <script>
+      import { captureAttribution, safeLocalStorage } from '../lib/attribution';
+
+      captureAttribution(safeLocalStorage(), new URL(window.location.href), Date.now());
+    </script>
+  </body>
+</html>

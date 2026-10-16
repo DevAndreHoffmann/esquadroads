@@ -1,0 +1,30 @@
+{
+  "name": "esquadroads-site",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "test": "vitest run",
+    "verify": "astro check && astro build && vitest run",
+    "db:types": "npx supabase@latest gen types typescript --linked --schema public > src/types/database.types.ts"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "@astrojs/vercel": "11.0.11",
+    "@fontsource/fraunces": "5.3.0",
+    "@fontsource/ibm-plex-sans": "5.3.0",
+    "@supabase/supabase-js": "2.117.2",
+    "astro": "7.3.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3",
+    "vitest": "5.0.4"
+  }
+}

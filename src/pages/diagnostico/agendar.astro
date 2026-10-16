@@ -1,0 +1,95 @@
+---
+import { GOOGLE_BOOKING_URL } from 'astro:env/server';
+import { PUBLIC_WHATSAPP_URL } from 'astro:env/client';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Icon from '../../components/Icon.astro';
+import { SITE, safeWhatsappUrl } from '../../lib/site';
+
+const whatsappUrl = safeWhatsappUrl(PUBLIC_WHATSAPP_URL);
+---
+
+<BaseLayout
+  title="Escolha o horário da sua call | Esquadro ADS"
+  description="Escolha um horário para a call estratégica de até 40 minutos sobre o diagnóstico da sua marcenaria."
+  noindex
+  pixelLoad="eager"
+>
+  <Header />
+
+  <main id="conteudo">
+    <section class="page-hero section--dark" aria-labelledby="agendar-title">
+      <div class="container">
+        <p class="kicker" data-num="✓">Diagnóstico recebido</p>
+        <h1 id="agendar-title">
+          Recebemos seu diagnóstico. Agora escolha um horário para conversarmos sobre sua marcenaria.
+        </h1>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="call-title">
+      <div class="container">
+        <div class="schedule-card">
+          <h2 id="call-title">Sua call estratégica</h2>
+          <ul class="facts" role="list">
+            <li>
+              <Icon name="clock" />
+              <span><strong>Duração:</strong> até 40 minutos.</span>
+            </li>
+            <li>
+              <Icon name="video" />
+              <span><strong>Onde:</strong> Google Meet. O link chega no convite da agenda.</span>
+            </li>
+            <li>
+              <Icon name="clipboard" />
+              <span><strong>Antes da call:</strong> nossa equipe analisa as informações que você enviou.</span>
+            </li>
+          </ul>
+          <p>
+            <a class="btn btn--primary btn--lg" href={GOOGLE_BOOKING_URL} target="_blank" rel="noopener" data-booking-link>
+              <Icon name="calendar" />
+              Escolher horário da reunião
+              <span class="visually-hidden">(abre o Google Agenda em uma nova aba)</span>
+            </a>
+          </p>
+          <p class="microcopy">
+            O horário só fica reservado depois que você confirma no Google Agenda. Ele abre em uma nova aba.
+          </p>
+        </div>
+
+        <div class="secondary-contact">
+          <h2 class="h3-size">Prefere falar com a gente agora?</h2>
+          {
+            whatsappUrl ? (
+              <a class="btn btn--outline" href={whatsappUrl} target="_blank" rel="noopener">
+                <Icon name="whatsapp" />
+                Falar com a Esquadro no WhatsApp
+                <span class="visually-hidden">(abre em uma nova aba)</span>
+              </a>
+            ) : (
+              <p>
+                Escreva para <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+              </p>
+            )
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    import { consumeLeadHandoff, LEAD_EVENT_PARAMS, safeSessionStorage, track } from '../../lib/tracking';
+
+    // Lead só é disparado se o formulário acabou de ser gravado com sucesso (handoff de /diagnostico).
+    const lead = consumeLeadHandoff(safeSessionStorage(), Date.now());
+    if (lead) track('Lead', LEAD_EVENT_PARAMS, { eventID: lead.eventId });
+
+    // ScheduleIntent: intenção de agendar (clique). A confirmação acontece fora do site, no Google Agenda.
+    document.querySelector('[data-booking-link]')?.addEventListener('click', () => {
+      track('ScheduleIntent', { content_name: 'Call estratégica' });
+    });
+  </script>
+</BaseLayout>
